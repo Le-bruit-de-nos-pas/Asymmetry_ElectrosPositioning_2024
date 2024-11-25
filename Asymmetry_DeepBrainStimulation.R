@@ -717,6 +717,28 @@ Asymmetry_Pre_vs_Post <- OFF_before %>% select(SUBJID, Diff) %>% rename("Diff_Pr
                        Diff_Post_OP_OFFON=abs(Diff_Post_OP_OFFON), Diff_Post_OP_ONON=abs(Diff_Post_OP_ONON),
                        Diff_Post_OP_OFFOFF=abs(Diff_Post_OP_OFFOFF))
 
+
+
+Asymmetry_Pre_vs_Post <- OFF_before %>% mutate(Diff=abs(Diff)/(Left+Right)) %>% select(SUBJID, Diff) %>% rename("Diff_Pre_OP"="Diff") %>%
+  full_join(ONOFF_After %>% mutate(Diff=abs(Diff)/(Left+Right)) %>% select(SUBJID, Diff) %>% rename("Diff_Post_OP_ONOFF"="Diff") ) %>%
+  full_join(OFFON_After %>% mutate(Diff=abs(Diff)/(Left+Right)) %>% select(SUBJID, Diff) %>% rename("Diff_Post_OP_OFFON"="Diff") ) %>%
+  full_join(ONON_After %>% mutate(Diff=abs(Diff)/(Left+Right)) %>% select(SUBJID, Diff) %>% rename("Diff_Post_OP_ONON"="Diff") ) %>%
+  full_join(OFFOFF_After %>% mutate(Diff=abs(Diff)/(Left+Right)) %>% select(SUBJID, Diff) %>% rename("Diff_Post_OP_OFFOFF"="Diff") ) %>%
+  drop_na() %>% mutate(Diff_Pre_OP=abs(Diff_Pre_OP),  Diff_Post_OP_ONOFF=abs(Diff_Post_OP_ONOFF),  
+                       Diff_Post_OP_OFFON=abs(Diff_Post_OP_OFFON), Diff_Post_OP_ONON=abs(Diff_Post_OP_ONON),
+                       Diff_Post_OP_OFFOFF=abs(Diff_Post_OP_OFFOFF))
+
+
+mean(Asymmetry_Pre_vs_Post$Diff_Pre_OP)
+mean(Asymmetry_Pre_vs_Post$Diff_Post_OP_OFFOFF)
+
+mean(Asymmetry_Pre_vs_Post$Diff_Post_OP_ONOFF)
+mean(Asymmetry_Pre_vs_Post$Diff_Post_OP_OFFON)
+
+mean(Asymmetry_Pre_vs_Post$Diff_Post_OP_ONON)
+
+
+
 sum(Asymmetry_Pre_vs_Post<0)
 
 fwrite(Asymmetry_Pre_vs_Post, "Processed_data/Asymmetry_Pre_vs_Post.txt", sep="\t")
