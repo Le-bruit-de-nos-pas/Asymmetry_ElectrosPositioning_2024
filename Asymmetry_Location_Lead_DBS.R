@@ -303,6 +303,7 @@ ggplot(data, aes(x = group, y = percentage, colour=group, fill=group)) +
 
 # SITES_df from above !
 
+
 Asymmetry_Pre_vs_Post <- fread("Asymmetry_Pre_vs_Post.txt")
 
 
@@ -1839,3 +1840,42 @@ for (col in cols_to_test) {
 
 results
 # -----------------------
+# Other Asymetry SM vs no SM ----
+Asymmetry_Pre_vs_Post
+
+
+test <- SITES_df %>% mutate(exp=1) %>%
+  spread(key=SITE, value=exp) %>%
+  mutate(Other=ifelse(is.na(Other),0,Other)) %>%
+  mutate(STN_SM=ifelse(is.na(STN_SM),0,STN_SM)) %>%
+  mutate(SM=ifelse(STN_SM==1,1,0)) %>% select(-c(Other, STN_SM))  %>%
+  spread(key=feature, value=SM) %>%
+  mutate(L=ifelse(is.na(L),0,L)) %>%
+  mutate(R=ifelse(is.na(R),0,R)) %>%
+  inner_join(Asymmetry_Pre_vs_Post %>% select(SUBJID, ON_ON)) %>%
+  mutate(Both=ifelse(L+R>1,1,0)) %>%
+  mutate(Any=ifelse(L+R>0,1,0)) %>%
+  select(-c(L,R))
+
+range(test$ON_ON)
+
+wilcox.test(as.numeric(test$ON_ON[test$Both==1]), 
+            as.numeric(test$ON_ON[test$Both==0]) ) 
+
+# 	Wilcoxon rank sum test with continuity correction
+# 
+# data:  as.numeric(test$ON_ON[test$Both == 1]) and as.numeric(test$ON_ON[test$Both == 0])
+# W = 1106.5, p-value = 0.9663
+# alternative hypothesis: true location shift is not equal to 0
+
+
+wilcox.test(as.numeric(test$ON_ON[test$Any==1]), 
+            as.numeric(test$ON_ON[test$Any==0]) ) 
+
+# 	Wilcoxon rank sum test with continuity correction
+# 
+# data:  as.numeric(test$ON_ON[test$Any == 1]) and as.numeric(test$ON_ON[test$Any == 0])
+# W = 1300.5, p-value = 0.2881
+# alternative hypothesis: true location shift is not equal to 0
+
+# ---
