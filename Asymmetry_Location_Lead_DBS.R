@@ -1880,3 +1880,91 @@ wilcox.test(as.numeric(test$ON_ON[test$Any==1]),
 
 # ---
 # --------------
+# Correlation VTA coverage vs asymetry  ------------
+
+VTA_patients_MB <- read_xlsx(path="VTA_patients_MB.xlsx", skip=0,  trim_ws = TRUE)
+
+names(VTA_patients_MB)
+
+VTA_patients_MB <- VTA_patients_MB[,c("ID",
+                                      "Group",
+                                      "Zhang_Right_lateral_SNc_somatomotor",
+                                      "Zhang_Right_medial_SNc_limbic",
+                                      "Zhang_Right_ventral_SN_associative",
+                                      "Zhang_Left_lateral_SNc_somatomotor",
+                                      "Zhang_Left_medial_SNc_limbic",
+                                      "Zhang_Left_ventral_SN_associative")]
+
+VTA_patients_MB <- VTA_patients_MB %>% filter(Group=="B")
+
+VTA_patients_MB <- VTA_patients_MB %>% rename("SUBJID"="ID")
+
+Asymmetry_Pre_vs_Post <- fread("Asymmetry_Pre_vs_Post.txt")
+Asymmetry_Pre_vs_Post <- Asymmetry_Pre_vs_Post %>% select(SUBJID, ON_ON)
+
+VTA_patients_MB <- Asymmetry_Pre_vs_Post %>% inner_join(VTA_patients_MB)
+
+names(VTA_patients_MB)
+
+cor.test(VTA_patients_MB$ON_ON,  VTA_patients_MB$Zhang_Right_lateral_SNc_somatomotor ,  method = "spearman")
+# 	Spearman's rank correlation rho
+# 
+# data:  VTA_patients_MB$ON_ON and VTA_patients_MB$Zhang_Right_lateral_SNc_somatomotor
+# S = 1131.2, p-value = 0.5068
+# alternative hypothesis: true rho is not equal to 0
+# sample estimates:
+#        rho 
+# -0.1673755 
+
+cor.test(VTA_patients_MB$ON_ON,  VTA_patients_MB$Zhang_Right_medial_SNc_limbic , method = "spearman")
+# 	Spearman's rank correlation rho
+# 
+# data:  VTA_patients_MB$ON_ON and VTA_patients_MB$Zhang_Right_medial_SNc_limbic
+# S = 1148.6, p-value = 0.4616
+# alternative hypothesis: true rho is not equal to 0
+# sample estimates:
+#        rho 
+# -0.1853268 
+
+cor.test(VTA_patients_MB$ON_ON,  VTA_patients_MB$Zhang_Right_ventral_SN_associative,  method = "spearman")
+# 	Spearman's rank correlation rho
+# 
+# data:  VTA_patients_MB$ON_ON and VTA_patients_MB$Zhang_Right_ventral_SN_associative
+# S = 1295.1, p-value = 0.1721
+# alternative hypothesis: true rho is not equal to 0
+# sample estimates:
+#        rho 
+# -0.3365383 
+
+cor.test(VTA_patients_MB$ON_ON,  VTA_patients_MB$Zhang_Left_lateral_SNc_somatomotor ,method = "spearman" )
+# 	Spearman's rank correlation rho
+# 
+# data:  VTA_patients_MB$ON_ON and VTA_patients_MB$Zhang_Left_lateral_SNc_somatomotor
+# S = 857.44, p-value = 0.6492
+# alternative hypothesis: true rho is not equal to 0
+# sample estimates:
+#       rho 
+# 0.1151338 
+
+cor.test(VTA_patients_MB$ON_ON,  VTA_patients_MB$Zhang_Left_medial_SNc_limbic,method = "spearman" )
+# 	Spearman's rank correlation rho
+# 
+# data:  VTA_patients_MB$ON_ON and VTA_patients_MB$Zhang_Left_medial_SNc_limbic
+# S = 1335.8, p-value = 0.1214
+# alternative hypothesis: true rho is not equal to 0
+# sample estimates:
+#        rho 
+# -0.3785046 
+
+cor.test(VTA_patients_MB$ON_ON,  VTA_patients_MB$Zhang_Left_ventral_SN_associative ,method = "spearman")
+# 	Spearman's rank correlation rho
+# 
+# data:  VTA_patients_MB$ON_ON and VTA_patients_MB$Zhang_Left_ventral_SN_associative
+# S = 1103.4, p-value = 0.5831
+# alternative hypothesis: true rho is not equal to 0
+# sample estimates:
+#        rho 
+# -0.1387136 
+
+
+# ---------------
