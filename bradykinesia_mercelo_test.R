@@ -96,3 +96,42 @@ Deltas_Gait <- Item3.10 %>% inner_join(Item3.11) %>%
   select(SUBJID, Gait_Med, Gait_Stim) %>%
   drop_na() %>%
   filter_if(~is.numeric(.), all_vars(!is.infinite(.)))
+
+
+BradyUp <- Item3.4_left %>% select(SUBJID, ONOFF_After_3.4_left, ONOFF_After_3.4_left, OFF_After_3.4_left, OFFON_After_3.4_left) %>%
+  inner_join(Item3.4_right %>% select(SUBJID, ONOFF_After_3.4_right, OFF_After_3.4_right, OFFON_After_3.4_right)) %>%
+  mutate(ONOFF_After_3.4=ONOFF_After_3.4_left+ONOFF_After_3.4_right) %>%
+  mutate(OFFON_After_3.4=OFFON_After_3.4_left+OFFON_After_3.4_right) %>%
+  mutate(OFF_After_3.4=OFF_After_3.4_left+OFF_After_3.4_right) %>%
+  select(SUBJID, OFF_After_3.4, ONOFF_After_3.4, OFFON_After_3.4) %>%
+  drop_na() %>%
+  filter_if(~is.numeric(.), all_vars(!is.infinite(.))) %>%
+  inner_join(
+    Item3.5_left %>% select(SUBJID, ONOFF_After_3.5_left, ONOFF_After_3.5_left, OFF_After_3.5_left, OFFON_After_3.5_left) %>%
+  inner_join(Item3.5_right %>% select(SUBJID, ONOFF_After_3.5_right, OFF_After_3.5_right, OFFON_After_3.5_right)) %>%
+  mutate(ONOFF_After_3.5=ONOFF_After_3.5_left+ONOFF_After_3.5_right) %>%
+  mutate(OFFON_After_3.5=OFFON_After_3.5_left+OFFON_After_3.5_right) %>%
+  mutate(OFF_After_3.5=OFF_After_3.5_left+OFF_After_3.5_right) %>%
+  select(SUBJID, OFF_After_3.5, ONOFF_After_3.5, OFFON_After_3.5) %>%
+  drop_na() %>%
+  filter_if(~is.numeric(.), all_vars(!is.infinite(.)))
+  ) %>%
+  inner_join(
+    Item3.6_left %>% select(SUBJID, ONOFF_After_3.6_left, ONOFF_After_3.6_left, OFF_After_3.6_left, OFFON_After_3.6_left) %>%
+  inner_join(Item3.6_right %>% select(SUBJID, ONOFF_After_3.6_right, OFF_After_3.6_right, OFFON_After_3.6_right)) %>%
+  mutate(ONOFF_After_3.6=ONOFF_After_3.6_left+ONOFF_After_3.6_right) %>%
+  mutate(OFFON_After_3.6=OFFON_After_3.6_left+OFFON_After_3.6_right) %>%
+  mutate(OFF_After_3.6=OFF_After_3.6_left+OFF_After_3.6_right) %>%
+  select(SUBJID, OFF_After_3.6, ONOFF_After_3.6, OFFON_After_3.6) %>%
+  drop_na() %>%
+  filter_if(~is.numeric(.), all_vars(!is.infinite(.)))
+  ) %>%
+  mutate(OFF_After_BradyUp=OFF_After_3.6+OFF_After_3.5+OFF_After_3.4) %>%
+  mutate(ONOFF_After_BradyUp=ONOFF_After_3.6+ONOFF_After_3.5+ONOFF_After_3.4) %>%
+  mutate(OFFON_After_BradyUp=OFFON_After_3.6+OFFON_After_3.5+OFFON_After_3.4) %>%
+  select(SUBJID, OFF_After_BradyUp, ONOFF_After_BradyUp, OFFON_After_BradyUp) %>%
+  mutate(BradyUp_Med=100*(OFF_After_BradyUp-ONOFF_After_BradyUp )/OFF_After_BradyUp) %>%
+  mutate(BradyUp_Stim=100*(OFF_After_BradyUp-OFFON_After_BradyUp )/OFF_After_BradyUp) %>%
+  select(SUBJID, BradyUp_Med, BradyUp_Stim)  %>%
+  drop_na() %>%
+  filter_if(~is.numeric(.), all_vars(!is.infinite(.)))
