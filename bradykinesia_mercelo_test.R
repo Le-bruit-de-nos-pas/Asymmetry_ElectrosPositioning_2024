@@ -16,3 +16,11 @@ names(Item3.11) <- c("SUBJID", "OFF_After", "ONOFF_After", "OFFON_After", "ONON_
 Item3.11 <- data.frame(Item3.11) %>% mutate_each(as.numeric, OFF_After:ONON_After)
 names(Item3.11) <- c("SUBJID", "OFF_After_3.11", "ONOFF_After_3.11",  "OFFON_After_3.11", "ONON_After_3.11")
 
+
+
+Item3.10 <- UPDRSIII_COMPLET_V0_V1 %>% select(SUBJID, OFF_3.10_1,ONOFF_3.10_,OFFON_3.10_, ON_3.10_6)
+Item3.10 <- Item3.10[-1,]
+names(Item3.10) <- c("SUBJID", "OFF_After", "ONOFF_After", "OFFON_After", "ONON_After")
+Item3.10 <- data.frame(Item3.10) %>% mutate_each(as.numeric, OFF_After:ONON_After)
+names(Item3.10) <- c("SUBJID", "OFF_After_3.10", "ONOFF_After_3.10",  "OFFON_After_3.10", "ONON_After_3.10")
+
