@@ -311,3 +311,76 @@ BradyDown %>% inner_join(BradyUp)   %>%
   xlab( expression(Delta~"% Lower Body Bradykinesia Stimulation")) +
   ylab( expression(Delta~"% Upper Body Bradykinesia Stimulation")) 
 
+
+BradyDown %>% inner_join(Deltas_Gait) %>%
+  summarise(cor_test = list(cor.test(BradyDown_Stim , Gait_Stim,  method = "spearman" ))) %>%
+  mutate(tidy_result = map(cor_test, broom::tidy)) %>%
+  unnest(tidy_result)
+
+#   cor_test estimate statistic  p.value method                alternative
+#   <list>      <dbl>     <dbl>    <dbl> <chr>                 <chr>      
+# 1 <htest>     0.168 11735816. 0.000417 Spearman's rank corr… two.sided 
+
+BradyDown %>% inner_join(Deltas_Gait)   %>%
+  ggplot(aes(BradyDown_Stim, Gait_Stim)) +
+  geom_jitter(alpha=0.5, color="#0e9aa7") + 
+  geom_smooth(method="lm", color= "#d11141",fill= "#d11141") +
+    geom_text(
+    aes(x = Inf, y = -Inf),
+    label = paste0("\u03C1: 0.168 ; p-val: 0.000417"), hjust = 1.5, vjust = -10, inherit.aes = FALSE) +
+   theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "none") +
+  theme(panel.background = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        strip.background = element_blank(),
+        strip.text = element_blank(),
+        axis.line = element_blank(),
+        axis.text.x = element_text(size = 10),
+        axis.text.y = element_text(size = 10),
+        axis.title.x = element_text(size = 10, vjust = -0.5),
+        axis.title.y = element_text(size = 10, vjust = -0.5),
+        plot.margin = margin(5, 5, 5, 5, "pt")) +
+   xlab( expression(Delta~"% Lower Body Bradykinesia Stimulation")) +
+  ylab( expression(Delta~"% Gait Stimulation")) 
+
+
+BradyUp %>% inner_join(Deltas_Gait) %>%
+  summarise(cor_test = list(cor.test(BradyUp_Stim , Gait_Stim, method = "spearman" ))) %>%
+  mutate(tidy_result = map(cor_test, broom::tidy)) %>%
+  unnest(tidy_result)
+
+#   cor_test estimate statistic p.value method                 alternative
+#   <list>      <dbl>     <dbl>   <dbl> <chr>                  <chr>      
+# 1 <htest>     0.110 12990570.  0.0210 Spearman's rank corre… two.sided 
+
+
+
+
+
+
+BradyUp %>% inner_join(Deltas_Gait)   %>%
+  ggplot(aes(BradyUp_Stim, Gait_Stim)) +
+  geom_jitter(alpha=0.5, color="#0e9aa7") + 
+  geom_smooth(method="lm", color= "#d11141",fill= "#d11141") +
+    geom_text(
+    aes(x = Inf, y = -Inf),
+    label = paste0("\u03C1: 0.110 ; p-val: 0.0210"), hjust = 1.5, vjust = -10, inherit.aes = FALSE) +
+   theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "none") +
+  theme(panel.background = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        strip.background = element_blank(),
+        strip.text = element_blank(),
+        axis.line = element_blank(),
+        axis.text.x = element_text(size = 10),
+        axis.text.y = element_text(size = 10),
+        axis.title.x = element_text(size = 10, vjust = -0.5),
+        axis.title.y = element_text(size = 10, vjust = -0.5),
+        plot.margin = margin(5, 5, 5, 5, "pt")) +
+   xlab( expression(Delta~"% Upper Body Bradykinesia Stimulation")) +
+  ylab( expression(Delta~"% Gait Stimulation")) 
+
