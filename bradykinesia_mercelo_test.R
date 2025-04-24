@@ -135,3 +135,37 @@ BradyUp <- Item3.4_left %>% select(SUBJID, ONOFF_After_3.4_left, ONOFF_After_3.4
   select(SUBJID, BradyUp_Med, BradyUp_Stim)  %>%
   drop_na() %>%
   filter_if(~is.numeric(.), all_vars(!is.infinite(.)))
+
+
+BradyDown <- Item3.7_left %>% select(SUBJID, ONOFF_After_3.7_left, ONOFF_After_3.7_left, OFF_After_3.7_left, OFFON_After_3.7_left) %>%
+  inner_join(Item3.7_right %>% select(SUBJID, ONOFF_After_3.7_right, OFF_After_3.7_right, OFFON_After_3.7_right)) %>%
+  mutate(ONOFF_After_3.7=ONOFF_After_3.7_left+ONOFF_After_3.7_right) %>%
+  mutate(OFFON_After_3.7=OFFON_After_3.7_left+OFFON_After_3.7_right) %>%
+  mutate(OFF_After_3.7=OFF_After_3.7_left+OFF_After_3.7_right) %>%
+  select(SUBJID, OFF_After_3.7, ONOFF_After_3.7, OFFON_After_3.7) %>%
+  drop_na() %>%
+  filter_if(~is.numeric(.), all_vars(!is.infinite(.))) %>%
+  inner_join(
+    Item3.8_left %>% select(SUBJID, ONOFF_After_3.8_left, ONOFF_After_3.8_left, OFF_After_3.8_left, OFFON_After_3.8_left) %>%
+  inner_join(Item3.8_right %>% select(SUBJID, ONOFF_After_3.8_right, OFF_After_3.8_right, OFFON_After_3.8_right)) %>%
+  mutate(ONOFF_After_3.8=ONOFF_After_3.8_left+ONOFF_After_3.8_right) %>%
+  mutate(OFFON_After_3.8=OFFON_After_3.8_left+OFFON_After_3.8_right) %>%
+  mutate(OFF_After_3.8=OFF_After_3.8_left+OFF_After_3.8_right) %>%
+  select(SUBJID, OFF_After_3.8, ONOFF_After_3.8, OFFON_After_3.8) %>%
+  drop_na() %>%
+  filter_if(~is.numeric(.), all_vars(!is.infinite(.)))
+  ) %>%
+  mutate(OFF_After_BradyDown=OFF_After_3.7+OFF_After_3.8) %>%
+  mutate(ONOFF_After_BradyDown=ONOFF_After_3.7+ONOFF_After_3.8) %>%
+  mutate(OFFON_After_BradyDown=OFFON_After_3.7+OFFON_After_3.8) %>%
+  select(SUBJID, OFF_After_BradyDown, ONOFF_After_BradyDown, OFFON_After_BradyDown) %>%
+  mutate(BradyDown_Med=100*(OFF_After_BradyDown-ONOFF_After_BradyDown )/OFF_After_BradyDown) %>%
+  mutate(BradyDown_Stim=100*(OFF_After_BradyDown-OFFON_After_BradyDown )/OFF_After_BradyDown) %>%
+  select(SUBJID, BradyDown_Med, BradyDown_Stim)  %>%
+  drop_na() %>%
+  filter_if(~is.numeric(.), all_vars(!is.infinite(.)))
+
+
+BradyDown
+BradyUp
+Deltas_Gait
