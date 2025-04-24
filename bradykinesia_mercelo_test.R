@@ -24,3 +24,15 @@ names(Item3.10) <- c("SUBJID", "OFF_After", "ONOFF_After", "OFFON_After", "ONON_
 Item3.10 <- data.frame(Item3.10) %>% mutate_each(as.numeric, OFF_After:ONON_After)
 names(Item3.10) <- c("SUBJID", "OFF_After_3.10", "ONOFF_After_3.10",  "OFFON_After_3.10", "ONON_After_3.10")
 
+
+Item3.4_right <- UPDRSIII_COMPLET_V0_V1 %>% select(SUBJID, ONOFF_3.4_Right_,	OFF_3.4_Right_1,	OFFON_3.4_Right_,	ON_3.4_Right_)
+Item3.4_right <- Item3.4_right[-1,]
+names(Item3.4_right) <- c("SUBJID", "ONOFF_After", "OFF_After",  "OFFON_After", "ONON_After")
+Item3.4_right <- data.frame(Item3.4_right) %>% mutate_each(as.numeric, ONOFF_After:ONON_After)
+names(Item3.4_right) <- c("SUBJID", "ONOFF_After_3.4_right", "OFF_After_3.4_right",  "OFFON_After_3.4_right", "ONON_After_3.4_right")
+Item3.4_left <- UPDRSIII_COMPLET_V0_V1 %>% select(SUBJID,ONOFF_3.4_Left_	, OFF_3.4_Left_1	, OFFON_3.4_Left_	, ON_3.4_Left_)
+Item3.4_left <- Item3.4_left[-1,]
+names(Item3.4_left) <- c("SUBJID", "ONOFF_After", "OFF_After",  "OFFON_After", "ONON_After")
+Item3.4_left <- data.frame(Item3.4_left) %>% mutate_each(as.numeric, ONOFF_After:ONON_After)
+names(Item3.4_left) <- c("SUBJID", "ONOFF_After_3.4_left", "OFF_After_3.4_left",  "OFFON_After_3.4_left", "ONON_After_3.4_left")
+
