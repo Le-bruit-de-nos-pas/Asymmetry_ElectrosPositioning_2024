@@ -85,3 +85,14 @@ names(Item3.8_left) <- c("SUBJID", "ONOFF_After", "OFF_After",  "OFFON_After", "
 Item3.8_left <- data.frame(Item3.8_left) %>% mutate_each(as.numeric, ONOFF_After:ONON_After)
 names(Item3.8_left) <- c("SUBJID", "ONOFF_After_3.8_left", "OFF_After_3.8_left",  "OFFON_After_3.8_left", "ONON_After_3.8_left")
 
+
+
+Deltas_Gait <- Item3.10 %>% inner_join(Item3.11) %>%
+  mutate(Gait_OFF=OFF_After_3.10+OFF_After_3.11 ) %>%
+  mutate(Gait_Med=ONOFF_After_3.10+ONOFF_After_3.11 ) %>%
+  mutate(Gait_Stim=OFFON_After_3.11+OFFON_After_3.11 ) %>%
+  mutate(Gait_Med=100*(Gait_OFF-Gait_Med )/Gait_OFF)  %>%
+  mutate(Gait_Stim=100*(Gait_OFF-Gait_Stim )/Gait_OFF)  %>%
+  select(SUBJID, Gait_Med, Gait_Stim) %>%
+  drop_na() %>%
+  filter_if(~is.numeric(.), all_vars(!is.infinite(.)))
